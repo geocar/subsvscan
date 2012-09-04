@@ -1,0 +1,25 @@
+.TH subsvscan 1V v3.0 "Internet Connection, Inc." "Virtual Hosting Manual"
+.SH NAME
+subsvscan \- run svscan under supervise
+.SH SYNOPSIS
+Put:
+.B subsvscan /path/to/service2/
+in your SERVICE/run file and install the new service as normal.
+.SH DESCRIPTION
+.I subsvscan
+is a chunk of glue-code that allows you to safely run svscan under another
+supervise instance. This is useful when you want to run svscan as a non-root
+user (letting users run/manage their own services).
+
+Normally, svscan makes no effort to "alert" it's children that it has died
+relying on
+.I init(8)
+to restart it. This works because svscan's parent (init) can't die.
+Unfortunately, if svscan's parent
+.B can
+die (for example, if it's "supervise") then svscan will attempt to run
+multiple copies of its new supervise children. This produces extra processes
+that do nothing, wastes some resources, and generally adds some confusion to
+administrators and users.
+.SH SEE ALSO
+http://cr.yp.to/daemontools.html
